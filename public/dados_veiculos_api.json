@@ -1,0 +1,24 @@
+[
+    {
+      "id": "carro1",
+      "valorFIPE": 35000.50,
+      "recallPendente": false,
+      "dicaManutencao": "Verificar nível do óleo a cada 1000km. Fuscas adoram atenção!",
+      "proximaRevisaoRecomendada": "2024-12-15"
+    },
+    {
+      "id": "carro2",
+      "valorFIPE": 85000.00,
+      "recallPendente": true,
+      "motivoRecall": "Possível falha no sistema de freios em alta velocidade.",
+      "dicaManutencao": "Manter pneus calibrados para melhor performance. Cuidado com a traseira!",
+      "proximaRevisaoRecomendada": "2025-05-20"
+    },
+    {
+      "id": "cam1",
+      "valorFIPE": 150000.00,
+      "recallPendente": false,
+      "dicaManutencao": "Verificar sistema pneumático regularmente, especialmente com carga máxima.",
+      "proximaRevisaoRecomendada": "A cada 6 meses ou 20000km."
+    }
+  ]

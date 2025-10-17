@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <title>🎀 Garagem Fofinha da Hello Kitty! 🎀</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div id="container">
+    <!-- CABEÇALHO ATUALIZADO COM CONTROLES DE USUÁRIO -->
+    <header id="main-header" style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; margin-bottom: 20px;">
+        <h1><i class="fa-solid fa-heart" style="color: #FF69B4;"></i> Garagem da Hello Kitty <i class="fa-solid fa-cat" style="color: #FFB6C1;"></i></h1>
+        <div id="user-controls" style="display: none;">
+            <span id="user-email" style="margin-right: 15px; font-weight: bold; color: var(--cor-texto-principal-hk);"></span>
+            <button id="btn-logout" class="modern-button" style="padding: 8px 15px !important; font-size: 0.9em !important; background-color: var(--cor-acento-medio-hk);"><i class="fa-solid fa-right-from-bracket"></i> Sair</button>
+        </div>
+    </header>
+
+    <!-- SEÇÃO DE AUTENTICAÇÃO (SÓ APARECE QUANDO DESLOGADO) -->
+    <section id="auth-section">
+        <div class="auth-container" style="max-width: 450px; margin: 40px auto;">
+            <!-- Formulário de Login -->
+            <div id="login-form-container" class="glass-card">
+                <h2><i class="fa-solid fa-key"></i> Acessar minha Garagem</h2>
+                <form id="form-login">
+                    <label for="login-email">Email:</label>
+                    <input type="email" id="login-email" required placeholder="kitty@email.com">
+                    <label for="login-password">Senha:</label>
+                    <input type="password" id="login-password" required placeholder="••••••••">
+                    <button type="submit" class="modern-button">Entrar</button>
+                    <p class="auth-switch" style="text-align: center; margin-top: 15px;">Não tem uma conta? <a href="#" id="show-register">Registre-se aqui!</a></p>
+                </form>
+            </div>
+
+            <!-- Formulário de Registro -->
+            <div id="register-form-container" class="glass-card" style="display: none;">
+                <h2><i class="fa-solid fa-user-plus"></i> Criar Conta Fofinha</h2>
+                <form id="form-register">
+                    <label for="register-email">Email:</label>
+                    <input type="email" id="register-email" required placeholder="kitty@email.com">
+                    <label for="register-password">Senha:</label>
+                    <input type="password" id="register-password" required placeholder="Crie uma senha segura">
+                    <button type="submit" class="modern-button">Registrar</button>
+                    <p class="auth-switch" style="text-align: center; margin-top: 15px;">Já tem uma conta? <a href="#" id="show-login">Faça o login!</a></p>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- CONTEÚDO PRINCIPAL DA GARAGEM (SÓ APARECE QUANDO LOGADO) -->
+    <main id="garage-main-content" style="display: none;">
+        <nav id="abas-navegacao">
+            <button id="tab-garagem" class="aba-ativa"><i class="fa-solid fa-car-side"></i> Ver Garagem</button>
+            <button id="tab-compartilhados"><i class="fa-solid fa-users"></i> Compartilhados Comigo</button>
+            <button id="tab-adicionar"><i class="fa-solid fa-plus-circle"></i> Adicionar Veículo Fofo</button>
+        </nav>
+
+        <div id="cnh-alertas-area" class="alertas-container"></div>
+        <div id="notificacoes-area" class="alertas-container"></div>
+
+        <section id="secao-garagem" class="secao-principal ativa" aria-labelledby="tab-garagem">
+            <h2><i class="fa-solid fa-car-on"></i> Minha Frota Encantada</h2>
+            <div id="menu-veiculos" class="menu-veiculos-container">
+                <span class="loading-placeholder">Consultando gatinhos na garagem... <i class="fa-solid fa-spinner fa-spin"></i></span>
+            </div>
+            <div id="veiculo-display-area">
+                <div class="placeholder">
+                    <i class="fa-solid fa-hand-pointer"></i>
+                    Selecione um veículo fofinho no menu acima para ver seus detalhes e controles!
+                </div>
+            </div>
+
+            <section id="agendamentos-futuros" class="glass-card" aria-label="Próximos Agendamentos">
+                <h3><i class="fa-solid fa-calendar-check"></i> Próximos Agendamentos (Todos)</h3>
+                <div id="agendamentos-futuros-lista">
+                     <p>Verificando agenda dos gatinhos... <i class="fa-solid fa-spinner fa-spin"></i></p>
+                </div>
+            </section>
+
+            <section id="planejador-viagem" class="glass-card" aria-label="Planejar Viagem">
+                <h3><i class="fa-solid fa-cloud-sun-rain"></i> Planejar Viagem com Previsão Mágica</h3>
+                <div class="form-grid">
+                    <div>
+                        <label for="viagem-destino">Destino (Cidade):*</label>
+                        <input type="text" id="viagem-destino" placeholder="Ex: Cidade dos Sonhos">
+                    </div>
+                </div>
+                <button id="btn-buscar-previsao" class="modern-button">
+                    <i class="fa-solid fa-magnifying-glass-location"></i> Ver Previsão do Tempo
+                </button>
+                
+                <div id="controles-previsao" style="margin-top: 15px; display: none;">
+                    <div id="filtros-previsao-dias" style="margin-bottom: 10px; text-align: center;">
+                        <span style="margin-right: 10px; font-size: 0.9em;">Mostrar previsão para:</span>
+                        <button data-dias="1" class="filtro-dia-btn modern-button">Hoje</button>
+                        <button data-dias="3" class="filtro-dia-btn modern-button">3 Dias</button>
+                        <button data-dias="5" class="filtro-dia-btn modern-button filtro-dia-btn-ativo">5 Dias</button> 
+                    </div>
+                </div>
+
+                <div id="previsao-resultado-area" class="detalhes-extras-area" style="margin-top: 5px;">
+                    <p>Digite a cidade para ver a previsão mágica.</p>
+                </div>
+            </section> 
+
+            <section id="dicas-manutencao" class="glass-card" aria-label="Dicas de Manutenção">
+                <h3><i class="fa-solid fa-lightbulb"></i> Dicas de Carinho e Cuidado</h3>
+                
+                <div class="form-grid">
+                    <div>
+                        <label for="select-tipo-dica">Ver dicas para um tipo específico:</label>
+                        <select id="select-tipo-dica">
+                            <option value="" disabled selected>-- Escolha um tipo de veículo --</option>
+                            <option value="carrobase">Carro Fofo Comum</option>
+                            <option value="carroesportivo">Esportivo da Kitty</option>
+                            <option value="caminhao">Caminhão de Pelúcia</option>
+                            <option value="moto">Motocicleta Charmosa</option>
+                        </select>
+                         <button id="btn-buscar-dicas-tipo" class="modern-button" style="margin-top: 10px;">
+                            <i class="fa-solid fa-search"></i> Buscar Dicas por Tipo
+                        </button>
+                    </div>
+                    <div>
+                         <label>Ou veja dicas que servem para todos:</label>
+                         <button id="btn-buscar-dicas-gerais" class="modern-button">
+                            <i class="fa-solid fa-star"></i> Ver Dicas Gerais
+                        </button>
+                    </div>
+                </div>
+
+                <div id="dicas-resultado-area" class="detalhes-extras-area" style="margin-top: 20px;">
+                    <p>Clique em um dos botões acima para ver as dicas!</p>
+                </div>
+            </section>
+
+            <section id="secao-veiculos-destaque" class="glass-card" aria-label="Veículos em Destaque">
+                <h3><i class="fa-solid fa-star"></i> Veículos Destaque da Garagem Fofinha</h3>
+                <div id="cards-veiculos-destaque" class="cards-container">
+                    <p>Carregando destaques fofinhos... <i class="fa-solid fa-spinner fa-spin"></i></p>
+                </div>
+            </section>
+
+            <section id="secao-servicos-oferecidos" class="glass-card" aria-label="Serviços Oferecidos">
+                <h3><i class="fa-solid fa-heart-pulse"></i> Nossos Serviços de Carinho</h3>
+                <ul id="lista-servicos-oferecidos">
+                    <li><i class="fa-solid fa-spinner fa-spin"></i> Carregando nossos mimos...</li>
+                </ul>
+            </section>
+        </section> 
+
+        <section id="secao-compartilhados" class="secao-principal" aria-labelledby="tab-compartilhados">
+            <h2><i class="fa-solid fa-gift"></i> Veículos que Amigos Compartilharam</h2>
+            <div id="menu-veiculos-compartilhados" class="menu-veiculos-container">
+                <span class="loading-placeholder">Verificando presentes... <i class="fa-solid fa-spinner fa-spin"></i></span>
+            </div>
+            <div id="veiculo-display-area-compartilhados">
+                <div class="placeholder">
+                    <i class="fa-solid fa-hand-pointer"></i>
+                    Selecione um veículo compartilhado no menu para ver os detalhes!
+                </div>
+            </div>
+        </section>
+
+
+        <section id="secao-adicionar" class="secao-principal" aria-labelledby="tab-adicionar">
+            <div id="add-veiculo-section" class="glass-card">
+                <h2><i class="fa-solid fa-circle-plus"></i> Registrar Novo Veículo Fofinho</h2>
+                <form id="form-add-veiculo">
+                    <div class="form-grid">
+                        <div>
+                            <label for="add-modelo">Modelo:*</label>
+                            <input type="text" id="add-modelo" required placeholder="Ex: Carrinho da Kitty">
+                        </div>
+                        <div>
+                            <label for="add-cor">Cor:</label>
+                            <input type="text" id="add-cor" placeholder="Ex: Rosa choque">
+                        </div>
+                        <div>
+                            <label for="add-placa">Placa:</label>
+                            <input type="text" id="add-placa" placeholder="Ex: KTY2E19" pattern="[A-Za-z]{3}[0-9][A-Za-z0-9][0-9]{2}|[A-Za-z]{3}[0-9]{4}" title="Formato antigo (AAA1234) ou Mercosul (AAA1B23)">
+                        </div>
+                        <div>
+                            <label for="add-ano">Ano:</label>
+                            <input type="number" id="add-ano" placeholder="Ex: 2024" min="1900" max="2100">
+                        </div>
+                        <div>
+                            <label for="add-tipo">Tipo:*</label>
+                            <select id="add-tipo" required>
+                                <option value="" disabled selected>-- Selecione o Tipo --</option>
+                                <option value="CarroBase">Carro Fofo Comum</option>
+                                <option value="CarroEsportivo">Esportivo da Kitty</option>
+                                <option value="Caminhao">Caminhão de Pelúcia</option>
+                            </select>
+                        </div>
+                        <div id="add-capacidade-carga-container">
+                            <label for="add-capacidade-carga">Capacidade Carga (kg):</label>
+                            <input type="number" id="add-capacidade-carga" min="0" placeholder="Ex: Muitos lacinhos">
+                        </div>
+                        <div>
+                            <label for="add-cnh">Vencimento CNH Associada:</label>
+                            <input type="date" id="add-cnh">
+                        </div>
+                    </div>
+                    <div>
+                        <label for="add-imagem-input">Imagem (Opcional, mas recomendado!):</label>
+                        <input type="file" id="add-imagem-input" accept="image/*">
+                        <div class="imagem-preview-container">
+                            <img class="imagem-preview" id="add-imagem-preview" src="#" alt="Prévia da imagem fofa">
+                            <small>Prévia da imagem selecionada.</small>
+                            <small class="warning-text"><i class="fa-solid fa-triangle-exclamation"></i> Imagens muito grandes podem deixar devagar.</small>
+                        </div>
+                    </div>
+                    <button type="submit" id="adicionar-veiculo-btn"><i class="fa-solid fa-floppy-disk"></i> Adicionar à Garagem</button>
+                </form>
+            </div>
+        </section>
+    </main>
+</div> 
+
+<template id="veiculo-template">
+    <div class="veiculo-renderizado" data-template-id>
+        <h2 class="veiculo-titulo">Nome Veículo</h2> 
+        <div class="coluna-imagem-info">
+            <div class="card-info-basica glass-card">
+                <img class="veiculo-imagem" src="https://placekitten.com/350/220" alt="Imagem do Veículo Fofo">
+                <div class="informacoes-veiculo">
+                    <p><span class="info-label">Status:</span> <span class="veiculo-status status-desligado">Dormindo</span></p>
+                    <p><span class="info-label">Velocidade:</span> <span class="veiculo-velocidade">0</span> km/h</p>
+                    <p><span class="info-label">Placa:</span> <span class="veiculo-placa">-</span></p>
+                    <p><span class="info-label">Ano:</span> <span class="veiculo-ano">-</span></p>
+                    <p class="veiculo-info-extra"></p>
+                    <p class="veiculo-cnh-info"></p>
+                    <div class="velocimetro" aria-label="Velocímetro"><div class="veiculo-ponteiro ponteiro"></div></div>
+                    <div class="barra-aceleracao" aria-label="Barra de aceleração"><div class="veiculo-barra-progresso barra-progresso"></div></div>
+                    <button class="btn-excluir-veiculo" data-acao="excluir" title="Mandar este veículo para outra casinha"><i class="fa-solid fa-trash-can"></i> Excluir Veículo</button>
+                </div>
+            </div>
+
+            <div class="edicao-veiculo glass-card">
+                <h3><i class="fa-solid fa-pencil"></i> Editar Detalhes Fofos</h3>
+                <label for="edit-modelo-veiculo">Modelo:</label> <input type="text" id="edit-modelo-veiculo" class="edit-modelo-veiculo">
+                <label for="edit-cor-veiculo">Cor:</label> <input type="text" id="edit-cor-veiculo" class="edit-cor-veiculo">
+                <label for="edit-placa-veiculo">Placa:</label> <input type="text" id="edit-placa-veiculo" class="edit-placa-veiculo" pattern="[A-Za-z]{3}[0-9][A-Za-z0-9][0-9]{2}|[A-Za-z]{3}[0-9]{4}" title="Formato Mercosul ou antigo">
+                <label for="edit-ano-veiculo">Ano:</label> <input type="number" id="edit-ano-veiculo" class="edit-ano-veiculo" min="1900" max="2100">
+                <label for="edit-cnh-veiculo">Venc. CNH:</label> <input type="date" id="edit-cnh-veiculo" class="edit-cnh-veiculo">
+                <label for="edit-imagem-input">Nova Imagem (Opcional):</label>
+                <input type="file" id="edit-imagem-input" class="edit-imagem-input" accept="image/*">
+                <div class="imagem-preview-container">
+                    <img class="imagem-preview edit-imagem-preview" src="#" alt="Prévia da nova imagem fofa">
+                    <small>Prévia da nova imagem. Se não escolher, mantém a atual.</small>
+                    <small class="warning-text"><i class="fa-solid fa-triangle-exclamation"></i> Imagens muito grandes podem falhar.</small>
+                </div>
+                <button class="salvar-veiculo-btn" data-acao="salvar-edicao"><i class="fa-solid fa-save"></i> Salvar Alterações</button>
+            </div>
+        </div>
+
+        <div class="coluna-acoes-manutencao">
+            <div class="acoes-veiculo glass-card">
+                <h3><i class="fa-solid fa-gamepad"></i> Painel de Controle Mágico</h3>
+                <button data-acao="ligar" title="Acordar o veículo"><i class="fa-solid fa-power-off"></i> Ligar</button>
+                <button data-acao="acelerar" title="Correr rapidinho"><i class="fa-solid fa-gas-pump"></i> Acelerar</button>
+                <button data-acao="frear" title="Parar suavemente"><i class="fa-solid fa-hand-paper"></i> Frear</button>
+                <button data-acao="buzinar" title="Miau!"><i class="fa-solid fa-bullhorn"></i> Buzinar</button>
+                <span class="acao-extra"></span>
+                <button data-acao="desligar" title="Colocar para dormir"><i class="fa-solid fa-plug-circle-xmark"></i> Desligar</button>
+            </div>
+            
+            <div class="compartilhamento-section glass-card">
+                <h3><i class="fa-solid fa-user-group"></i> Compartilhar com Amigo</h3>
+                <form class="form-compartilhar">
+                    <label for="share-email-input">Email do usuário:</label>
+                    <input type="email" class="share-email-input" required placeholder="amigo@email.com">
+                    <button type="submit" class="btn-share-veiculo modern-button"><i class="fa-solid fa-paper-plane"></i> Compartilhar</button>
+                </form>
+            </div>
+
+            <div class="detalhes-extras-card glass-card">
+                <h3><i class="fa-solid fa-database"></i> Detalhes Extras (API da Fofura)</h3>
+                <button class="btn-detalhes-extras modern-button" data-acao="buscar-detalhes"><i class="fa-solid fa-magnifying-glass"></i> Ver Detalhes Extras</button>
+                <div class="detalhes-extras-area">
+                </div>
+                <button class="btn-editar-detalhes modern-button" style="display: none; margin-top: 10px;" data-acao="editar-detalhes"><i class="fa-solid fa-pencil"></i> Editar Detalhes</button>
+            </div>
+
+            <div class="agendamento-section glass-card">
+                <h4><i class="fa-solid fa-wrench"></i> Agendar Carinho e Cuidado</h4>
+                <form class="form-agendamento">
+                    <label for="agendamento-data">Data:*</label><input type="date" id="agendamento-data" class="agendamento-data" required>
+                    <label for="agendamento-hora">Hora:</label><input type="time" id="agendamento-hora" class="agendamento-hora">
+                    <label for="agendamento-tipo">Tipo de Serviço:*</label><input type="text" id="agendamento-tipo" class="agendamento-tipo" required placeholder="Ex: Banho de espuma e lacinhos">
+                    <label for="agendamento-custo">Custo Estimado (R$):</label><input type="number" id="agendamento-custo" class="agendamento-custo" step="0.01" min="0" placeholder="Ex: Muitos abraços">
+                    <label for="agendamento-obs">Observações:</label><textarea id="agendamento-obs" class="agendamento-obs" placeholder="Detalhes: não esquecer do perfume de morango..."></textarea>
+                    <button type="submit" class="agendar-manutencao-btn modern-button" title="Adicionar este serviço"><i class="fa-solid fa-calendar-plus"></i> Agendar Serviço</button>
+                </form>
+            </div>
+
+            <div class="historico-section glass-card">
+                <h4><i class="fa-solid fa-book-medical"></i> Histórico de Mimos <button class="btn-limpar-historico modern-button" title="Limpar TODO o histórico de mimos"><i class="fa-solid fa-eraser"></i> Limpar</button></h4>
+                <div class="lista-historico"><p>Nenhum registro de mimo encontrado.</p></div>
+            </div>
+        </div>
+    </div>
+</template>
+
+<script src="JSS/manutencao.js"></script>
+<script src="JSS/carro.js"></script>
+<script src="JSS/carroesportivo.js"></script>
+<script src="JSS/caminhao.js"></script>
+<script src="JSS/garagem.js"></script>
+</body>
+</html>
